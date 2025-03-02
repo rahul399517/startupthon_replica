@@ -8,65 +8,101 @@ datasource db {
 }
 
 model User {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  email               String               @unique
-  name                String?
-  password            String?
-  credits             Int                  @default(0) // Available credit balance
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  email          String           @unique
+  name           String?
+  password       String?
+  credits        Int              @default(0) // Available credit balance
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
   // Relations
-  templates           EmailTemplate[]      // One-to-many relation with EmailTemplate
-  uploadedImages      ImageAsset[]         // One-to-many relation with ImageAsset
+  templates      EmailTemplate[]  // One-to-many relation with EmailTemplate
+  uploadedImages ImageAsset[]     // One-to-many relation with ImageAsset
 }
 
 model EmailTemplate {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  title               String               // Template title
-  description         String?              // Template description
-  content             Json                 // Stores the template JSON configuration
-  layoutId            String               @db.ObjectId         // Foreign key for Layout
-  createdById         String               @db.ObjectId         // Foreign key for User
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  title             String             // Template title
+  description       String?            // Template description
+  content           Json               // Stores the template JSON configuration
+  layoutId          String             @db.ObjectId         // Foreign key for Layout
+  createdById       String             @db.ObjectId         // Foreign key for User
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   // Relations
-  layout              Layout               @relation(fields: [layoutId], references: [id], onDelete: Cascade)
-  createdBy           User                 @relation(fields: [createdById], references: [id], onDelete: Cascade)
-  renderedTemplates   RenderedTemplate[]   // One-to-many relation with RenderedTemplate
+  layout            Layout             @relation(fields: [layoutId], references: [id], onDelete: Cascade)
+  createdBy         User               @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  renderedTemplates RenderedTemplate[] // One-to-many relation with RenderedTemplate
 }
 
 model Layout {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  name                String               // Name of the layout
-  description         String?              // Description of the layout
-  htmlContent         String               // HTML content of the layout
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String          // Name of the layout
+  description  String?         // Description of the layout
+  htmlContent  String          // HTML content of the layout
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 
   // Relations
-  templates           EmailTemplate[]      // One-to-many relation with EmailTemplate
+  templates    EmailTemplate[] // One-to-many relation with EmailTemplate
 }
 
 model ImageAsset {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  fileName            String               // Name of the image file
-  url                 String               // Public URL of the uploaded image
-  uploadedById        String               @db.ObjectId         // Foreign key for User
-  createdAt           DateTime             @default(now())
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  fileName     String    // Name of the image file
+  url          String    // Public URL of the uploaded image
+  uploadedById String    @db.ObjectId // Foreign key for User
+  createdAt    DateTime  @default(now())
 
   // Relations
-  uploadedBy          User                 @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedBy   User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
 }
 
 model RenderedTemplate {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  emailTemplateId     String               @db.ObjectId         // Foreign key for EmailTemplate
-  renderedHtml        String               // Rendered HTML of the template
-  downloadedAt        DateTime             @default(now())
-  createdAt           DateTime             @default(now())
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  emailTemplateId  String        @db.ObjectId         // Foreign key for EmailTemplate
+  renderedHtml     String        // Rendered HTML of the template
+  downloadedAt     DateTime      @default(now())
+  createdAt        DateTime      @default(now())
 
   // Relations
-  emailTemplate       EmailTemplate        @relation(fields: [emailTemplateId], references: [id], onDelete: Cascade)
+  emailTemplate    EmailTemplate @relation(fields: [emailTemplateId], references: [id], onDelete: Cascade)
+}
+
+/// New Models
+
+model CompletedChallenge {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  logo         String?   // Emoji or short text logo
+  founder      String    // Name of the founder (or could be a relation if needed)
+  title        String    // Title or role in the challenge
+  description  String
+  image        String    // URL of the challenge image
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Founder {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  logo         String?   // Emoji or text representing the founder
+  title        String    // e.g., CEO, Co-founder, etc.
+  description  String
+  image        String    // URL of the founder's image
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model OngoingChallenge {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  logo         String?   // Emoji or text representing the challenge
+  deadline     DateTime  // Deadline for the challenge
+  description  String
+  image        String    // URL of the challenge image
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }

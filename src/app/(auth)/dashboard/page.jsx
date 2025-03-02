@@ -1,9 +1,8 @@
-import AdminDash from "./dasboard/page";
-
+import AllCoursesPresent from "./all/page";
 function AdminDashBoard() {
   return (
     <>
-    <AdminDash/>
+    <AllCoursesPresent/>
     </>
   );
 }

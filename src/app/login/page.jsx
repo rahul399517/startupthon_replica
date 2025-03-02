@@ -2,24 +2,28 @@
 import React from "react";
 import {
   Box,
-  Button,
   Container,
   CssBaseline,
   Typography,
   Paper,
   Avatar,
 } from "@mui/material";
+import { Button } from "@mui/material"; // Removed if not needed later.
 import { LockOutlined } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginForm from "@/component/auth/login-form";
+import Image from "next/image";
+import bigLogo from "../../../public/image/bigLogo.png";
+// Example: Replace this with your Persist Ventures logo import
+// import persistLogo from "@/public/persist-ventures-logo.png";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#6a11cb", // Purple for branding
+      main: "#6a1b9a", // Purple brand color
     },
     secondary: {
-      main: "#2575fc", // Blue gradient complement
+      main: "#8e44ad", // Another purple/blue complement
     },
   },
   typography: {
@@ -36,9 +40,10 @@ function LoginPageReplica() {
           height: "100vh",
           overflow: "hidden", // Prevent overflow of animated elements
           position: "relative", // For absolute positioning of background elements
+          backgroundColor: "#000000", // Black background
         }}
       >
-        {/* Animated Background */}
+        {/* Animated Background with brand color circles */}
         <Box
           sx={{
             position: "absolute",
@@ -47,13 +52,12 @@ function LoginPageReplica() {
             width: "100%",
             height: "100%",
             zIndex: -1,
-            background: "linear-gradient(to right, #6a11cb, #2575fc)",
             "&::before, &::after": {
               content: '""',
               position: "absolute",
               width: "200px",
               height: "200px",
-              background: "rgba(255, 255, 255, 0.2)",
+              background: "rgba(106, 27, 154, 0.2)", // Brand color with alpha
               filter: "blur(100px)",
               borderRadius: "50%",
               animation: "float 10s infinite",
@@ -104,6 +108,19 @@ function LoginPageReplica() {
                   paddingRight: { xs: 0, md: 4 }, // Remove padding on small screens
                 }}
               >
+                {/* Optionally, if you have a small logo for Persist Ventures, uncomment below */}
+                {/*
+                <Box sx={{ mb: 2 }}>
+                  <Image
+                    src={persistLogo}
+                    alt="Persist Ventures Logo"
+                    width={150}
+                    height={50}
+                    style={{ objectFit: "contain" }}
+                  />
+                </Box>
+                */}
+
                 <Typography
                   variant="h3"
                   sx={{
@@ -113,7 +130,7 @@ function LoginPageReplica() {
                     fontSize: { xs: "1.8rem", md: "3rem" }, // Smaller font size on small screens
                   }}
                 >
-                  Welcome to AppGenesis
+                  Welcome to Persist Ventures
                 </Typography>
                 <Typography
                   variant="h6"
@@ -124,22 +141,24 @@ function LoginPageReplica() {
                     fontSize: { xs: "1rem", md: "1.25rem" }, // Smaller font size on small screens
                   }}
                 >
-                  Build your dream application effortlessly.
+                  We help you build unstoppable ventures.
                 </Typography>
-                <Button
-                  variant="contained"
+                {/* Instead of a Get Started button, display the bigLogo image */}
+                <Box
                   sx={{
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    fontSize: "1rem",
-                    padding: "10px 20px",
-                    "&:hover": {
-                      backgroundColor: "#333",
-                    },
+                    display: "flex",
+                    justifyContent: "center",
+                    mt: 2,
                   }}
                 >
-                  Get Started
-                </Button>
+                  <Image
+                    src={bigLogo}
+                    alt="Persist Ventures Big Logo"
+                    width={200} // Adjust width as needed
+                    height={200} // Adjust height as needed
+                    style={{ objectFit: "contain" }}
+                  />
+                </Box>
               </Box>
 
               {/* Right Section */}
@@ -168,6 +187,7 @@ function LoginPageReplica() {
                     sx={{
                       mb: 3,
                       fontSize: { xs: "1.5rem", sm: "1.75rem" }, // Adjust font size on small screens
+                      textAlign: "center",
                     }}
                   >
                     Sign in to your account
@@ -179,7 +199,6 @@ function LoginPageReplica() {
           </Container>
         </Box>
       </Box>
-      
     </ThemeProvider>
   );
 }

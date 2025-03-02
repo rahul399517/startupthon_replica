@@ -55,37 +55,37 @@ export default function ResponsiveSideNav() {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        backgroundColor: '#ffffff',
-        color: '#000',
+        backgroundColor: '#000', // Black background for the side nav
+        color: '#fff',
       }}
     >
       {/* Logo */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         <Image
           src={logo}
-          width={120}
+          width={180}
           height={120}
           alt="App Logo"
           priority
-          style={{ borderRadius: '50%' }}
+          // style={{ borderRadius: '50%' }}
         />
       </Box>
 
       {/* Current Credits */}
-      <Box
+      {/* <Box
         sx={{
           p: 2,
           textAlign: 'center',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#333', // Darker background for credits
           borderRadius: 1,
           mx: 2,
           my: 1,
         }}
       >
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography variant="subtitle1" sx={{ color: '#fff' }}>
           Credits: {credits}
         </Typography>
-      </Box>
+      </Box> */}
 
       {/* Navigation Links */}
       <Box sx={{ flexGrow: 1, overflow: 'auto', mt: 2 }}>
@@ -110,7 +110,7 @@ export default function ResponsiveSideNav() {
 
           <ListItem disablePadding>
             <ListItemButton
-              onClick={() => handleNavigation('/allCourses')}
+              onClick={() => handleNavigation('/completed_challenges')}
               sx={{
                 '&:hover': {
                   background: 'linear-gradient(to right, #6a11cb, #2575fc)',
@@ -122,13 +122,13 @@ export default function ResponsiveSideNav() {
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <WorkHistoryIcon />
               </ListItemIcon>
-              <ListItemText primary="Public Creations" />
+              <ListItemText primary="Completed Challenges" />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
             <ListItemButton
-              onClick={() => handleNavigation('/credits')}
+              onClick={() => handleNavigation('/founders')}
               sx={{
                 '&:hover': {
                   background: 'linear-gradient(to right, #6a11cb, #2575fc)',
@@ -140,13 +140,13 @@ export default function ResponsiveSideNav() {
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <ShopIcon />
               </ListItemIcon>
-              <ListItemText primary="Credits" />
+              <ListItemText primary="Founders" />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
             <ListItemButton
-              onClick={() => handleNavigation('/alert')}
+              onClick={() => handleNavigation('/ongoing_challenge')}
               sx={{
                 '&:hover': {
                   background: 'linear-gradient(to right, #6a11cb, #2575fc)',
@@ -158,11 +158,11 @@ export default function ResponsiveSideNav() {
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <MarkUnreadChatAltIcon />
               </ListItemIcon>
-              <ListItemText primary="Alerts" />
+              <ListItemText primary="Ongoing Challenge" />
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton
               onClick={() => handleNavigation('/setting')}
               sx={{
@@ -178,7 +178,7 @@ export default function ResponsiveSideNav() {
               </ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Box>
 
@@ -190,11 +190,11 @@ export default function ResponsiveSideNav() {
         fullWidth
         startIcon={<LogoutIcon />}
         sx={{
-          background: 'white',
-          color: 'black',
+          background: 'rgba(0,0,0,0.8)',
+          color: '#fff',
           '&:hover': {
             background: 'linear-gradient(to right, #6a11cb, #2575fc)',
-            color: 'white',
+            color: '#fff',
           },
         }}
         onClick={() => handleNavigation('/login')}
