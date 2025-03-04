@@ -4,8 +4,8 @@ import MainScroller from "@/component/scroller/mainscroll/mainscroll";
 export default function Home() {
   return (
     <>
-    {/* <StartupathonPage/> */}
-    <MainScroller/>
+    <StartupathonPage/>
+    {/* <MainScroller/> */}
     </>
   );
 }
