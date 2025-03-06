@@ -9,7 +9,6 @@ import Image from "next/image";
 import { Link } from "@mui/material";
 import { motion } from "framer-motion";
  import mainpage from "../../../../public/image/mainpage.png";
-
 import {
   VolumeUp,
   HelpOutline,
@@ -167,51 +166,54 @@ const Navbar = () => (
 
 
   // Button Section with four main call-to-actions
-  const ButtonSection = () => (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        gap: 3,
-        mt: 4,
-        flexWrap: "wrap"
-      }}
-    >
-      {[
-        { text: "Ongoing Startupathon", icon: <VolumeUp /> },
-        { text: "Startupathon Guide", icon: <HelpOutline /> },
-        { text: "Past Startupathons", icon: <CheckCircle /> },
-        { text: "Mentor Network", icon: <EmojiObjects /> }
-      ].map((button, index) => (
-        <Button
-          key={index}
-          variant="contained"
-          startIcon={button.icon}
-          sx={{
-            background: "linear-gradient(135deg, #7b1fa2, #9c27b0)",
-            color: "#fff",
-            borderRadius: "12px",
-            padding: "16px 32px",
-            fontSize: "1.2rem",
-            fontWeight: "bold",
-            textTransform: "none",
-            boxShadow: "0px 0px 20px rgba(156, 39, 176, 0.7)",
-            transition: "all 0.3s ease-in-out",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0px 0px 30px rgba(156, 39, 176, 1)"
-            },
-            "&:active": {
-              transform: "scale(0.95)"
-            }
-          }}
-        >
-          {button.text}
-        </Button>
-      ))}
-    </Box>
-  );
-  
+ // ButtonSection (UPDATED STYLES for partial transparency + smaller padding)
+const ButtonSection = () => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      gap: 3,
+      mt: 4,
+      flexWrap: "wrap"
+    }}
+  >
+    {[
+      { text: "Ongoing Startupathon", icon: <VolumeUp /> },
+      { text: "Startupathon Guide", icon: <HelpOutline /> },
+      { text: "Past Startupathons", icon: <CheckCircle /> },
+      { text: "Mentor Network", icon: <EmojiObjects /> }
+    ].map((button, index) => (
+      <Button
+        key={index}
+        variant="contained"
+        startIcon={button.icon}
+        sx={{
+          // Partial transparent gradient to see the background eye
+          background: "linear-gradient(135deg, rgba(123,31,162,0.3), rgba(156,39,176,0.3))",
+          backdropFilter: "blur(6px)",
+          color: "#fff",
+          borderRadius: "12px",
+          padding: "12px 24px",
+          fontSize: "1rem",
+          fontWeight: "bold",
+          textTransform: "none",
+          boxShadow: "0px 0px 15px rgba(156, 39, 176, 0.5)",
+          transition: "all 0.3s ease-in-out",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0px 0px 25px rgba(156, 39, 176, 0.7)"
+          },
+          "&:active": {
+            transform: "scale(0.95)"
+          }
+        }}
+      >
+        {button.text}
+      </Button>
+    ))}
+  </Box>
+);
+
   // Rewards Section with static rewards data
   const RewardsSection = () => {
     const rewards = [
@@ -236,20 +238,22 @@ const Navbar = () => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Box
                   sx={{
-                    background: "linear-gradient(135deg, #1a1a2e, #2e1a47)",
+                    // Partial transparent background with blur
+                    background: "linear-gradient(135deg, rgba(26,26,46,0.3), rgba(46,26,71,0.3))",
+                    backdropFilter: "blur(6px)",
                     color: "#fff",
                     borderRadius: "12px",
-                    padding: "20px",
+                    padding: "12px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    minHeight: "150px",
-                    boxShadow: "0px 0px 15px rgba(156, 39, 176, 0.5)",
+                    minHeight: "120px",
+                    boxShadow: "0px 0px 15px rgba(156,39,176,0.3)",
                     transition: "all 0.3s ease-in-out",
                     "&:hover": {
                       transform: "scale(1.05)",
-                      boxShadow: "0px 0px 30px rgba(156, 39, 176, 1)"
+                      boxShadow: "0px 0px 25px rgba(156,39,176,0.5)"
                     }
                   }}
                 >
@@ -265,6 +269,7 @@ const Navbar = () => (
       </div>
     );
   };
+  
   
   // Ongoing Challenges Section using data from getOngoingChallenges
   const ChallengesSection = () => {
@@ -287,81 +292,178 @@ const Navbar = () => (
       fetchChallenges();
     }, []);
   
-    // Fallback icon if none is provided by the API
     const defaultIcon = <Monitor sx={{ fontSize: 60, color: "#b388eb" }} />;
   
+    // Split challenges into left and right columns
+    const half = Math.ceil(challenges.length / 2);
+    const leftChallenges = challenges.slice(0, half);
+    const rightChallenges = challenges.slice(half);
+  
     return (
-      <Container sx={{ py: 8, backgroundColor: "black", color: "#fff" }}>
+      <Container
+        sx={{
+          py: 8,
+          // Instead of solid black, use partial transparency so the eye is visible behind
+          backgroundColor: "transparent",
+          backdropFilter: "blur(4px)",
+          color: "#fff"
+        }}
+      >
         <Typography variant="h4" gutterBottom textAlign="center" fontWeight="bold">
           Ongoing Startupathon Challenges
         </Typography>
         <Typography variant="h6" textAlign="center" sx={{ mb: 4, opacity: 0.8 }}>
           Start your journey—tackle live challenges, earn equity, and lead the future.
         </Typography>
+  
         <Grid container spacing={3} justifyContent="center">
-          {challenges.map((challenge, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card
-                sx={{
-                  background: "linear-gradient(135deg, #1a1a2e, #2e1a47)",
-                  color: "#fff",
-                  borderRadius: "15px",
-                  textAlign: "center",
-                  minHeight: "350px",
-                  maxHeight: "350px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  boxShadow: "0px 0px 20px rgba(156, 39, 176, 0.5)",
-                  transition: "transform 0.3s ease-in-out",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                    boxShadow: "0px 0px 30px rgba(156, 39, 176, 1)"
-                  }
-                }}
-              >
-                <CardContent>
-                  {challenge.icon ? challenge.icon : defaultIcon}
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 2 }}>
-                    {challenge.title}
-                  </Typography>
-                  <Typography variant="subtitle2" color="primary" sx={{ mt: 1 }}>
-                    Initial Funding Offered: <i>{challenge.funding}</i>
-                  </Typography>
-                  <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
-                    {challenge.description}
-                  </Typography>
-                </CardContent>
-                <Box sx={{ px: 2, pb: 2, textAlign: "center" }}>
-                  <Typography variant="body2" color="error" fontWeight="bold">
-                    🔥 Deadline approaching! Apply by{" "}
-                    {new Date(challenge.deadline).toLocaleDateString()}!
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      mt: 2,
-                      width: "100%",
-                      backgroundColor: "#6a1b9a",
-                      color: "#fff",
-                      borderRadius: "8px",
-                      textTransform: "none",
-                      fontWeight: "bold",
-                      "&:hover": {
-                        backgroundColor: "#8e44ad"
-                      }
-                    }}
-                  >
-                    View Challenge Details
-                  </Button>
-                </Box>
-              </Card>
-            </Grid>
-          ))}
+          {/* Left column */}
+          <Grid item xs={12} md={4}>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              {leftChallenges.map((challenge, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    background: "linear-gradient(135deg, rgba(26,26,46,0.3), rgba(46,26,71,0.3))",
+                    backdropFilter: "blur(6px)",
+                    color: "#fff",
+                    borderRadius: "15px",
+                    textAlign: "center",
+                    minHeight: "280px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0px 0px 15px rgba(156,39,176,0.3)",
+                    transition: "transform 0.3s ease-in-out",
+                    my: 2,
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      boxShadow: "0px 0px 25px rgba(156,39,176,0.5)"
+                    }
+                  }}
+                >
+                  <CardContent>
+                    {challenge.icon ? challenge.icon : defaultIcon}
+                    <Typography variant="h6" fontWeight="bold" sx={{ mt: 2 }}>
+                      {challenge.title}
+                    </Typography>
+                    <Typography variant="subtitle2" color="primary" sx={{ mt: 1 }}>
+                      Initial Funding Offered: <i>{challenge.funding}</i>
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
+                      {challenge.description}
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{ px: 2, pb: 2, textAlign: "center" }}>
+                    <Typography variant="body2" color="error" fontWeight="bold">
+                      🔥 Deadline approaching! Apply by{" "}
+                      {new Date(challenge.deadline).toLocaleDateString()}!
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        width: "100%",
+                        backgroundColor: "#6a1b9a",
+                        color: "#fff",
+                        borderRadius: "8px",
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        "&:hover": {
+                          backgroundColor: "#8e44ad"
+                        }
+                      }}
+                    >
+                      View Challenge Details
+                    </Button>
+                  </Box>
+                </Card>
+              ))}
+            </motion.div>
+          </Grid>
+  
+          {/* Empty center column for spacing on md+ screens */}
+          <Grid item md={4} sx={{ display: { xs: "none", md: "block" } }} />
+  
+          {/* Right column */}
+          <Grid item xs={12} md={4}>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              {rightChallenges.map((challenge, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    background: "linear-gradient(135deg, rgba(26,26,46,0.3), rgba(46,26,71,0.3))",
+                    backdropFilter: "blur(6px)",
+                    color: "#fff",
+                    borderRadius: "15px",
+                    textAlign: "center",
+                    minHeight: "280px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0px 0px 15px rgba(156,39,176,0.3)",
+                    transition: "transform 0.3s ease-in-out",
+                    my: 2,
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      boxShadow: "0px 0px 25px rgba(156,39,176,0.5)"
+                    }
+                  }}
+                >
+                  <CardContent>
+                    {challenge.icon ? challenge.icon : defaultIcon}
+                    <Typography variant="h6" fontWeight="bold" sx={{ mt: 2 }}>
+                      {challenge.title}
+                    </Typography>
+                    <Typography variant="subtitle2" color="primary" sx={{ mt: 1 }}>
+                      Initial Funding Offered: <i>{challenge.funding}</i>
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
+                      {challenge.description}
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{ px: 2, pb: 2, textAlign: "center" }}>
+                    <Typography variant="body2" color="error" fontWeight="bold">
+                      🔥 Deadline approaching! Apply by{" "}
+                      {new Date(challenge.deadline).toLocaleDateString()}!
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        width: "100%",
+                        backgroundColor: "#6a1b9a",
+                        color: "#fff",
+                        borderRadius: "8px",
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        "&:hover": {
+                          backgroundColor: "#8e44ad"
+                        }
+                      }}
+                    >
+                      View Challenge Details
+                    </Button>
+                  </Box>
+                </Card>
+              ))}
+            </motion.div>
+          </Grid>
         </Grid>
       </Container>
     );
   };
+  
   
   // Founders Section using data from getFounders
   const FoundersSection = () => {
@@ -741,15 +843,19 @@ const MainScroller = () => {
   return (
     <div>
         <Navbar/>
-      <ScrollVideo frames={frames} containerHeight={1500} speedMultiplier={1.6} />
-      <Image
+      <ScrollVideo frames={frames} containerHeight={1500} speedMultiplier={0.5} />  
+      {/* 1.55 */}
+      {/* <Image
         src={mainpage}
         alt="Startupathon Main Page"
         layout="responsive"
         style={{ width: "100%", height: "auto" }}
-      />
+      /> */}
       {/* Other content */}
-       <HeroSection /> 
+
+      <HeroSection /> 
+
+      
 
 
 
@@ -991,5 +1097,4 @@ const MainScroller = () => {
 };
 
 export default MainScroller;
-
 

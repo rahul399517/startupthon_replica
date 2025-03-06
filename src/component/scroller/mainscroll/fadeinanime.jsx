@@ -1,28 +1,40 @@
 "use client";
-import React, { useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
-const FadeOnScrollSection = ({ children }) => {
-  const ref = useRef(null);
-  // Adjust the "amount" value as needed (0.3 means 30% of the element is in view)
-  const isInView = useInView(ref, { amount: 0.3, once: false });
-  
+// This hook calculates a global opacity based on window.scrollY.
+// In this example, it fades in from 0 to 300px scroll, stays at full opacity until 1000px,
+// then fades out gradually.
+const useScrollOpacity = () => {
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      let newOpacity = 1;
+      if (scrollY < 300) {
+        newOpacity = scrollY / 300;
+      } else if (scrollY > 1000) {
+        newOpacity = Math.max(0, 1 - (scrollY - 1000) / 300);
+      }
+      setOpacity(newOpacity);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // initialize
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return opacity;
+};
+
+const GlobalFadeWrapper = ({ children }) => {
+  const opacity = useScrollOpacity();
   return (
-    <AnimatePresence>
-      {isInView && (
-        <motion.div
-          ref={ref}
-          key="fadeContent"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.6 }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <motion.div style={{ opacity }} transition={{ duration: 0.3 }}>
+      {children}
+    </motion.div>
   );
 };
 
-export default FadeOnScrollSection;
+export default GlobalFadeWrapper;
